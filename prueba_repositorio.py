@@ -47,50 +47,77 @@ class App(customtkinter.CTk):
 
 
     def btn_mostrar_on_click(self):
-        #el costo por millón de kilómetros es de 8 bitcoin
-        personas_viaje = prompt("cantidad de personas", "Ingrese cantidad de pesonas en el viaje")
-
+        
+        personas_viaje = prompt("PASAJEROS", "Ingrese la cantidad de pasajeros para el viaje:")
         personas_viaje = int(personas_viaje)
 
-        temporada = prompt("Temporada", "Ingrese la temporada")
+        planeta = prompt("PLANETA", "Ingrese un planeta destino (marte, luna, titan)")
 
-        planeta = prompt("Eleccion de planeta", "Elegir destino")
+        temporada = prompt("TEMPORADA", "Ingrese la temporada para el viaje (verano, primavera, otoño o invierno)")
 
-        Datos_cliente = self.txt_edad.get()
+        marte_viaje = 60e6 * 8
+        luna_viaje = 50e4 * 8 
+        titan = 1300e6 * 8
+        suma_descuento = 0
 
-        match planeta:
-            case "marte":
-                if personas_viaje > 5:
-                    descuento = 50
-                elif temporada == "verano":
-                    primer_suma_descuento = 10
-                elif temporada == "otoño" or temporada == "primavera":
-                    segunda_suma_descuento = 25
-                else:
-                    descuento = 0
+        if planeta == "marte":
+            if personas_viaje > 5:
+                descuento = 50
 
-        
-        
-        
-
+                if temporada == "verano":
+                    suma_descuento = 10
                 
-
-
+                elif temporada == "otoño" or temporada == "primavera":
+                    suma_descuento = 25
+                
+                else:
+                    suma_descuento = 0
             
-            
-
-
-        #if planeta == "marte":
-         #   if personas_viaje > 5:
-         #       descuento = 50
-          #  elif temporada ("verano"):
-           #     suma_descuento = 10
-            
-            
-
+            else:
+                descuento = 0
         
+            precio_total = marte_viaje / 1e6
         
+        elif planeta == "luna":
+
+            if personas_viaje > 5:
+                descuento = 40
+            
+                if temporada == "verano":
+                    suma_descuento = 15
+                
+                elif temporada == "otoño" or temporada == "primavera":
+                    suma_descuento = 25
+                
+                else:
+                    suma_descuento = 0
+            else:
+                descuento = 0
+                
+            precio_total = luna_viaje /1e6
+
+        else:
+            if personas_viaje > 5:
+                descuento = 30
+
+                if temporada == "otoño" or temporada == "primavera":
+                    suma_descuento = 20 
+
+                elif temporada == "verano":
+                    suma_descuento = 10
+            
+            else:
+                descuento = 0
+            
+            precio_total = titan / 1e6
         
+        precio_descuento = precio_total - (precio_total * (descuento/100)) 
+        precio_neto = precio_descuento + (precio_descuento * (suma_descuento/100))
+
+        print(f"Viajando hacia {planeta} con {personas_viaje} pasajeros tiene un costo de {precio_neto} bitcoins")
+
+
+
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")
